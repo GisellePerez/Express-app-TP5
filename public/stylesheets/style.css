@@ -1,0 +1,39 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+#main{
+  display: flex;
+}
+.filters_div{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin:1em 0 0 3em;
+}
+.dogs_div{
+  margin: 0 auto;
+  display:flex;
+  width: 80%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.dog{
+  width:20%;
+  margin: 1em;
+}
+.dog img{
+  width: 100%;
+  height: auto;
+}
+.dog .info, .dog figure{
+  background-color: darkgray;
+}
+.pages-div{
+  text-align: center;
+}
+.pages-div a {
+  margin:1em;
+}

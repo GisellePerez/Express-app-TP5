@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+    h1=title
+    .dogs_div
+        for dog in dogsPerPage
+            .dog  
+                figure
+                    img(src=dog.img alt='dog picture')
+                .info
+                    p.breed=dog.breed
+                    p.age=dog.age
+                    .dogsBtn
+                    a(href='/'+page+'/'+dog.id) Info
+                    .fav  
+                    p
+                        i(class="far fa-heart")
+    .pages-div        
+        ul
+            each pag, index in pages
+                li= index+1 
+                    a(href=pag) pag
