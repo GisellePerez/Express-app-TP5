@@ -1,3 +1,15 @@
+extends layout
+
 block content
 
     h1='welcome to favs'
+    h2=title
+
+    .gustados
+        ul
+            for gustado in gustados
+                li=gustado
+        
+
+
+    a(href='/dogs/1') Back

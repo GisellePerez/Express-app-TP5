@@ -1,118 +1,87 @@
-// var favs= [];
+// //Save faved dogs in localStorage
 // var jsonFavs;
-// var favList = localStorage.getItem('fav');
+// var favs;
+// var datosGuardados = localStorage.getItem("favs"); 
 
-// $('.icon').on('click', function(){
-//     let name = $(this).data('name');
-//     console.log(name);
-//     let fav = $(this)
-//     console.log(fav);
-//     fav.toggleClass('faved')
-
-//     $.ajax ({
-//         url:'/fav',
-//         type: 'POST',
-//         data: {
-//             info: JSON.stringify({'favsies':name})
-//         },
-
-//         success: function() {
-//             if (fav.hasClass('faved')) {
-//                 console.log(name);
-//             }else{
-//                 console.log('error');
-//             }
-//         },
-
-//         error: function(){
-//             console.log('Please try with another doggie');
-//         }
-//     })
-// })
-
-// /* si nuestro localStorage no está vacío, lo pareceamos y borramos el div que estaba en el lugar de nuestros favoritos */
-// if(favList !== null){
-//     fav = JSON.parse(favtList).fav;
+// if (datosGuardados == null) {
+//   favs = [];
+//   //$(".no-favs").append("No hay ningun producto en favoritos");
+// } else {
+//   favs = JSON.parse(datosGuardados).favs; 
 // }
 
-// /* Genera el localStorage donde guardaremos los likes */
-// $('.icon').click(function () {
-// 	event.preventDefault();
-// 	$(this).html(`<i class="fas fa-heart red"></i>`);
-//     var liked = { 
-//         name: $(this).siblings(".name").html(),
-//     }
-//     console.log(liked)
+// $(".icon").on("click", function(e) {
+//   $(this).addClass("faved");
+//   console.log($(this).parent().parent().parent()); //div.dog
+//   console.log('parents children' + $(this).parent().parent().children().text())
+//   console.log('el link' + $(this).parent().parent().children('a').text());
+//   console.log('asjaskass', $(this).parent().parent().children().first().attr('href')) //link
+//   console.log('img src', $(this).parent().parent().parent().parent().children().first().children().first().attr('src').slice(3))
+//   console.log('el link' + $(this).parent().parent().children().attr('href'));
+//   console.log('breed', $(this).parent().parent().parent().children().first().text())
+//   console.log('age',$(this).parent().parent().parent().children().first().siblings().first().text()) 
+//     // ESTO FUNCIONA
+//     // let link = `<a href="${$(this).parent().parent().children().first().attr('href')}"> Link`
+//     // $('.favs-div').append(link);
 
-// 	fav.push(liked);
-// 	jsonFavs = {
-// 		    'liked': fav,
-// 		    'total': fav.length
-// 	}
-// 	let string = JSON.stringify(jsonFavs);
-// 	localStorage.setItem('fav', string);
+//     //save data in localStorage
+//     data = {
+//         imgSrc: $(this).parent().parent().parent().parent().children().first().children().first().attr('src').slice(3), 
+//         link: $(this).parent().parent().children().first().attr('href'),
+//         breed: $(this).parent().parent().parent().children().first().text(),
+//         age: $(this).parent().parent().parent().children().first().siblings().first().text()
+//     }
+
+//     favs.push(data);
+//     console.log('favs'+favs);
+
+//     jsonFavs = {
+//       favs: favs,
+//       total: favs.length
+//     }
+//     console.log(jsonFavs);
+
+//     let jsonFavsString = JSON.stringify(jsonFavs);
+//     localStorage.setItem('favs',jsonFavsString);
+
+//     console.log('json string',jsonFavsString);
+
+// //AGREGAR FUNCIONALIDAD PARA PERROS REPETIDOS
+
 // });
 
-// /* Mostramos los favs */
-// function mostrarFavs() {
-//   $.each(fav, function(index, elem) {
-//     let htmltoappend = `<div class="each"><img class="img-fav" src="${elem.img}">`
-//     htmltoappend += `<a href='adopciones/${elem.id}'><button>Más info</button></a></div>`;
-//     $(".favs").append(htmltoappend);
-//   });
-// }
-// mostrarFavs();
+// localStorage.clear()
+// /**
+//  * Display faved dogs
+//  */
 
-//Save faved dogs in localStorage
-var jsonFavs;
-var favs;
-var datosGuardados = localStorage.getItem("favs"); 
+//WATCHED
+var likedDogs= [];
 
-if (datosGuardados == null) {
-  favs = [];
-  //$(".no-favs").append("No hay ningun producto en favoritos");
-} else {
-  favs = JSON.parse(datosGuardados).favs; 
-}
+$('.icon').on('click', function(){
+  var name= $(this).data('name');
+  var id = $(this).data('id')
+  var icon= $(this);
+  $(this).toggleClass('faved');
 
-$(".icon").on("click", function(e) {
-  $(this).addClass("faved");
-  console.log($(this).parent().parent().parent()); //div.dog
-  console.log('parents children' + $(this).parent().parent().children().text())
-  console.log('el link' + $(this).parent().parent().children('a').text());
-  console.log('asjaskass', $(this).parent().parent().children().first().attr('href')) //link
-  console.log('img src', $(this).parent().parent().parent().parent().children().first().children().first().attr('src'))
-  console.log('el link' + $(this).parent().parent().children().attr('href'));
-  console.log('breed', $(this).parent().parent().parent().children().first().text())
-  console.log('age',$(this).parent().parent().parent().children().first().siblings().first().text()) 
-    // ESTO FUNCIONA
-    // let link = `<a href="${$(this).parent().parent().children().first().attr('href')}"> Link`
-    // $('.favs-div').append(link);
+  $.ajax({
+    url: '/favs',
+    type: 'post',
+    data: {info: JSON.stringify({'liked':name, 'id':id})},
 
-    //save data in localStorage
-    data = {
-        imgSrc: $(this).parent().parent().parent().parent().children().first().children().first().attr('src'), 
-        link: $(this).parent().parent().children().first().attr('href'),
-        breed: $(this).parent().parent().parent().children().first().text(),
-        age: $(this).parent().parent().parent().children().first().siblings().first().text()
+    
+
+    success: function(){
+      if(icon.hasClass('faved')){
+        console.log(name);
+        console.log(id);
+      }else{
+        console.log('error');
+      }
+    },
+
+    error: function(response){
+      console.log('Select a movie, please')
     }
-
-    favs.push(data);
-    console.log('favs'+favs);
-
-    jsonFavs = {
-      favs: favs,
-      total: favs.length
-    }
-    console.log(jsonFavs);
-
-    let jsonFavsString = JSON.stringify(jsonFavs);
-    localStorage.setItem('favs',jsonFavsString);
-
-    console.log('json string',jsonFavsString);
-
-});
-
-/**
- * Display faved dogs
- */
+  })
+})

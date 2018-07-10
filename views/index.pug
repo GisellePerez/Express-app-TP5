@@ -31,20 +31,20 @@ block content
         for dog in dogsPerPage
             .dog  
                 figure
-                    img(src=dog.img alt='dog picture').img
+                    img(src='../' +dog.img alt='dog picture').img
                 .info
                     p.breed=dog.breed
                     p.age=dog.age
                     .dogsBtn
-                      a(href='/'+page+'/'+dog.id) Info
+                      a(href='/dogs/'+page+'/'+dog.id) Info
                       .fav  
                       p 
-                        i(class="fas fa-heart" data-name=dog.name).icon
+                        i(class="fas fa-heart" data-name=dog.name data-id=dog.id).icon
   .pages-div        
       ul
           each pag, index in pages
               li= index+1 
-                  a(href=pag) pag
+                  a(href='/dogs/'+pag) pag
   .favs-div
-    a(href='/fav') Favs
+    a(href='/favs/watched') Favs
   

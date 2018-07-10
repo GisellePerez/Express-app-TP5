@@ -6,17 +6,22 @@ var indexController = require('../controllers/indexController');
 
 
 //router.get('/', indexController.dogsList);
-router.get('/', indexController.pages);
+router.get('/', function (req,res,next) {res.redirect('/dogs')});
+router.get('/dogs', indexController.pages);
 
-router.get('/:page', indexController.pages);
-router.get('/:page/:id', indexController.dogDetails);
+router.get('/dogs/:page', indexController.pages);
+router.get('/dogs/:page/:id', indexController.dogDetails);
 //router.get('/fav', indexController.faved);
-router.get('/favoritos', indexController.favoritos);
+
+//router.get('/favoritos', indexController.favoritos); //////
+
 //router.get('/', indexController.getFilters);
 //router.get('/:id',dogsController.dogDetails());
+router.get('/favs/watched', indexController.faved);
 
 //POST
 router.post('/filtered', indexController.filterDogs);
+router.post('/favs', indexController.getFaved);
 //router.post('/fav', indexController.getFav);
 //router.post('/filtered', indexController.getFiltersTwo);
 //router.post('/filtered', indexController.getFilters);

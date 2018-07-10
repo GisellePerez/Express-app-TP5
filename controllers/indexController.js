@@ -3,6 +3,7 @@ const self = {};
 
 var dogsFilter = [];
 var filtered = [];
+var page;
 var favs = [];
 const dogs = [
     {name:'Lala' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
@@ -33,8 +34,6 @@ self.dogDetails = function (req, res, next) {
 } 
 
 self.pages = function (req,res, next){
-
-    let page;
     
     if (req.params.page){
         page = req.params.page;
@@ -114,46 +113,59 @@ self.filterDogs= function(req, res, next){
     }
 }
 
-self.createFav = function(liked){
-	var alreadyFaved = favs.indexOf(liked);
-	if(alreadyFaved >= 0){
-        favs.splice(alreadyFaved, 1);
- 	}else{
-       	favs.push(liked);
+var gustados= [];
+
+self.createWatched= function(liked){
+    var likedDog = gustados.indexOf(liked);
+    if(likedDog >= 0){
+        gustados.splice(likedDog, 1);
+    }else{
+        gustados.push(liked)
     }
-    
-	for(i=0;i<dogs.length;i++){
-		dogs[i].liked=false;
-	}
-	
-	for(i=0;i<favs.length;i++){
-		for(j=0;j<dogs.length;j++){
-			if(dogs[j].breed===favs[i]){
-	 			dogs[j].liked=true;
- 			}
-	 	}
-	}
+
+    for(i=0; i<dogs.length; i++){
+        dogs[i].fav = false;
+    }
+
+    for(i=0; i<gustados.length; i++){
+        for(j=0; j<dogs.length; j++){
+            if(dogs[j].name === gustados[i]){
+                dogs[j].fav= true;
+            }
+        }
+    }
 }
 
-self.getFav = function (req,res,next) {
-    let liked = JSON.parse(req.body.info);
-    console.log('req body info: ',req.body.info);
-    console.log('liked item',liked);
-    createFav('liked: ',liked);
-    res.send('Response OK');
+self.getFaved= function(req, res, next){
+    var liked = (JSON.parse(req.body.info)).liked;
+    var id = (JSON.parse(req.body.info)).id;
+    console.log('liked',liked, 'id',id);
+    self.createWatched(liked);
+    res.send("se recibió la respuesta");
 }
 
-self.faved = function (req,res,next){
-    filtered = dogs;
-    console.log('favs en faved ',favs);
-	res.render('favs', {favs:favs})
+self.faved= function(req, res, next){
+    var dogName;
+    var dogId;
+    for(i=0; i<gustados.length; i++){
+        for(j=0; j<dogs.length; j++){
+            if(dogs[j].name === gustados[i]){
+                dogId=gustados[j].id;
+                dogName=dogs[j].name;
+            }
+        }
+    }
+    console.log('gust',gustados)
+    res.render('favs', {
+        title:'faving',
+        gustados,
+        dogName,
+        dogId, 
+        page
+    });
 }
 
-self.favoritos = function(req, res, next) {
-    res.render("favs");
-};
+module.exports= self;
 
 
 
-
-module.exports = self;
