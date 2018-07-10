@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    h1=title
+    #main    
+        .dogs_div
+            for dog in filter
+                .dog  
+                    figure
+                        img(src=dog.img)
+                    .info
+                        p.breed=dog.breed
+                        p.age=dog.age
+                        .dogsBtn
+                        a(href='/'+dog.id) Info
+                        .fav  
+                        p
+                            i(class="far fa-heart")
+    a(href='/') Back

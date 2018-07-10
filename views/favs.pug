@@ -1,0 +1,9 @@
+block content
+
+    if(fav.length>0)
+        ul
+            each bookmarked in fav
+                li= bookmarked 
+                    a(href="/biblioteca/ficha/"+bookmarked).link2='  - Detalle'
+    else 
+        h3 No dog selected
