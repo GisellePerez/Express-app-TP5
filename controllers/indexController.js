@@ -1,24 +1,25 @@
 const dogsService = require('../services/dogsService');
 const self = {};
 
-const dogs = [
-    {breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
-    {breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie02.jpg', id:'02', fav: false},
-    {breed:'Border Collie', size:'Medium', age: 'Adult', img:'images/border_collie04.jpg', id:'03', fav: false},
-    {breed:'Labrador', size:'Medium', age: 'Senior', img:'images/labrador04.jpg', id:'04', fav: false},
-    {breed:'Labrador', size:'Medium', age: 'Puppy', img:'images/labrador01.jpg', id:'05', fav: false},
-    {breed:'Pug', size:'Small', age: 'Puppy', img:'images/pug01.jpg', id:'06', fav: false},
-    {breed:'Pug', size:'Small', age: 'Adult', img:'images/pug03.jpg', id:'07', fav: false},
-    {breed:'Gran Danes', size:'Large', age: 'Puppy', img:'images/gran_danes01.jpg', id:'08', fav: false},
-    {breed:'Gran Danes', size:'Large', age: 'Adult', img:'images/gran_danes02.jpg', id:'09', fav: false},
-    {breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata02.jpg', id:'10', fav: false},
-    {breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata03.jpg', id:'11', fav: false},
-    {breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer01.jpg', id:'12', fav: false},
-    {breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer02.jpg', id:'13', fav: false}
-];
-
 var dogsFilter = [];
 var filtered = [];
+var favs = [];
+const dogs = [
+    {name:'Lala' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
+    {name:'Mimi' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie02.jpg', id:'02', fav: false},
+    {name:'Jess' ,breed:'Border Collie', size:'Medium', age: 'Adult', img:'images/border_collie04.jpg', id:'03', fav: false},
+    {name:'Toto' ,breed:'Labrador', size:'Medium', age: 'Senior', img:'images/labrador04.jpg', id:'04', fav: false},
+    {name:'Angie' ,breed:'Labrador', size:'Medium', age: 'Puppy', img:'images/labrador01.jpg', id:'05', fav: false},
+    {name:'Lucho' ,breed:'Pug', size:'Small', age: 'Puppy', img:'images/pug01.jpg', id:'06', fav: false},
+    {name:'Tomi' ,breed:'Pug', size:'Small', age: 'Adult', img:'images/pug03.jpg', id:'07', fav: false},
+    {name:'Maria' ,breed:'Gran Danes', size:'Large', age: 'Puppy', img:'images/gran_danes01.jpg', id:'08', fav: false},
+    {name:'Toti' ,breed:'Gran Danes', size:'Large', age: 'Adult', img:'images/gran_danes02.jpg', id:'09', fav: false},
+    {name:'Nana' ,breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata02.jpg', id:'10', fav: false},
+    {name:'Crash' ,breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata03.jpg', id:'11', fav: false},
+    {name:'Pia' ,breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer01.jpg', id:'12', fav: false},
+    {name:'Butch' ,breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer02.jpg', id:'13', fav: false}
+];
+
 
 self.dogsList =  function (req, res, next) {   
     res.render('index', { title: 'Dogs', dogs: dogs }); //sin paginación
@@ -62,7 +63,7 @@ self.pages = function (req,res, next){
     }
 
     let strPages = pages.map(function(e){return e.toString()}); 
-    //TtoString para poder ver si puedo poner el numero en el a del pug. No es necesario pero queria probar el map
+    //toString para poder ver si puedo poner el numero en el a del pug. No es necesario pero queria probar el map
 
     // console.log('total pages: ', totalPages);
     // console.log('page numbers: ', pageNumber);
@@ -76,32 +77,6 @@ self.pages = function (req,res, next){
         pages: strPages
     })
 }
-
-// self.getFilters = function(req,res,next){
-//     var age = req.body.ages;
-//     var size = req.body.sizes;
-//     var breed = req.body.breeds;
-    
-//     console.log('filters: ',age,size,breed);
-
-//     if(breed != 'All'){
-// 		dogsFilter = dogs.filter(function(item){return item.breed===breed});
-//     }else{
-// 		dogsFilter = dogs;
-// 	}
-// 	if(size != 'All'){
-// 		dogsFilter = dogs.filter(function(item){return item.size===size})
-//     }
-// 	if(age != 'All'){
-// 		dogsFilter = dogs.filter(function(item){return item.age===age})
-//     }
-// 	if(dogsFilter.length===0){
-// 		res.render("error", {mensaje:"No se encontraron resultados", detalle:"Por favor verifica la seleccion y proba nuevamente"})
-// 	}else{
-//         res.redirect('/filtered');
-//     }
-//     console.log('dogsFilter',dogsFilter);
-// }
 
 self.getFilters = function (breed,age){
 
@@ -134,43 +109,50 @@ self.filterDogs= function(req, res, next){
         res.render('error');
     }else{
         res.render('filter', {
-            title: breed+' '+age, 
+            title: 'Resultados de búsqueda: '+breed+' '+age, 
             filter: filter});
     }
 }
 
-self.createFav = function(marked){
-	var alreadyFaved = fav.indexOf(marked);
+self.createFav = function(liked){
+	var alreadyFaved = favs.indexOf(liked);
 	if(alreadyFaved >= 0){
-        fav.splice(alreadyFaved, 1);
+        favs.splice(alreadyFaved, 1);
  	}else{
-       	fav.push(marked);
+       	favs.push(liked);
     }
     
 	for(i=0;i<dogs.length;i++){
-		dogs[i].marked=false;
+		dogs[i].liked=false;
 	}
 	
-	for(i=0;i<fav.length;i++){
+	for(i=0;i<favs.length;i++){
 		for(j=0;j<dogs.length;j++){
-			if(dogs[j].breed===fav[i]){
-	 			dogs[j].marked=true;
+			if(dogs[j].breed===favs[i]){
+	 			dogs[j].liked=true;
  			}
 	 	}
 	}
 }
 
 self.getFav = function (req,res,next) {
-    let marked = (JSON.parse(req.body.info)).marked;
-    this.createFav(marked);
+    let liked = JSON.parse(req.body.info);
+    console.log('req body info: ',req.body.info);
+    console.log('liked item',liked);
+    createFav('liked: ',liked);
     res.send('Response OK');
 }
 
 self.faved = function (req,res,next){
     filtered = dogs;
-    console.log(fav);
-	res.render('favs', {fav:fav})
+    console.log('favs en faved ',favs);
+	res.render('favs', {favs:favs})
 }
+
+self.favoritos = function(req, res, next) {
+    res.render("favs");
+};
+
 
 
 
