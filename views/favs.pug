@@ -9,6 +9,9 @@ block content
         ul
             for gustado in gustados
                 li=gustado
+            for favDog in dogData
+                li=favDog.dogName
+                    a(href='/dogs/dog/'+favDog.dogId) Info
         
 
 

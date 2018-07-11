@@ -4,6 +4,7 @@ const self = {};
 var dogsFilter = [];
 var filtered = [];
 var page;
+var dogData=[];
 var favs = [];
 const dogs = [
     {name:'Lala' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
@@ -93,7 +94,7 @@ self.getFilters = function (breed,age){
     return filtered;
 }
 
-self.filterDogs= function(req, res, next){
+self.filterDogs = function(req, res, next){
 
     var age = req.body.ages;
     var dogSize = req.body.sizes;
@@ -113,9 +114,9 @@ self.filterDogs= function(req, res, next){
     }
 }
 
-var gustados= [];
+var gustados = [];
 
-self.createWatched= function(liked){
+self.createFav = function(liked){
     var likedDog = gustados.indexOf(liked);
     if(likedDog >= 0){
         gustados.splice(likedDog, 1);
@@ -136,32 +137,43 @@ self.createWatched= function(liked){
     }
 }
 
-self.getFaved= function(req, res, next){
+self.getFaved = function(req, res, next){
     var liked = (JSON.parse(req.body.info)).liked;
     var id = (JSON.parse(req.body.info)).id;
+    
     console.log('liked',liked, 'id',id);
-    self.createWatched(liked);
-    res.send("se recibió la respuesta");
+
+    let dogInfo = {
+        dogId: id,
+        dogName:liked 
+    }
+    
+    dogData.push(dogInfo); 
+    
+    self.createFav(liked);
+    res.send("response ok");
 }
 
-self.faved= function(req, res, next){
+
+self.faved = function(req, res, next){
+    //var dogData=[];
     var dogName;
     var dogId;
     for(i=0; i<gustados.length; i++){
         for(j=0; j<dogs.length; j++){
             if(dogs[j].name === gustados[i]){
-                dogId=gustados[j].id;
-                dogName=dogs[j].name;
+                //dogId=gustados[j].id;
+                dogName=dogs[j].name;               
             }
         }
     }
-    console.log('gust',gustados)
+    console.log('gust',gustados);
+    console.log('dog data',dogData);
+
     res.render('favs', {
         title:'faving',
         gustados,
-        dogName,
-        dogId, 
-        page
+        dogData
     });
 }
 
