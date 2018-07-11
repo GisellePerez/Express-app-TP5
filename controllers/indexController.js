@@ -1,25 +1,24 @@
-const dogsService = require('../services/dogsService');
 const self = {};
 
-var dogsFilter = [];
 var filtered = [];
 var page;
 var dogData=[];
-var favs = [];
+var gustados = [];
+
 const dogs = [
-    {name:'Lala' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
-    {name:'Mimi' ,breed:'Border Collie', size:'Medium', age: 'Puppy', img:'images/border_collie02.jpg', id:'02', fav: false},
-    {name:'Jess' ,breed:'Border Collie', size:'Medium', age: 'Adult', img:'images/border_collie04.jpg', id:'03', fav: false},
-    {name:'Toto' ,breed:'Labrador', size:'Medium', age: 'Senior', img:'images/labrador04.jpg', id:'04', fav: false},
-    {name:'Angie' ,breed:'Labrador', size:'Medium', age: 'Puppy', img:'images/labrador01.jpg', id:'05', fav: false},
-    {name:'Lucho' ,breed:'Pug', size:'Small', age: 'Puppy', img:'images/pug01.jpg', id:'06', fav: false},
-    {name:'Tomi' ,breed:'Pug', size:'Small', age: 'Adult', img:'images/pug03.jpg', id:'07', fav: false},
-    {name:'Maria' ,breed:'Gran Danes', size:'Large', age: 'Puppy', img:'images/gran_danes01.jpg', id:'08', fav: false},
-    {name:'Toti' ,breed:'Gran Danes', size:'Large', age: 'Adult', img:'images/gran_danes02.jpg', id:'09', fav: false},
-    {name:'Nana' ,breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata02.jpg', id:'10', fav: false},
-    {name:'Crash' ,breed:'Dalmata', size:'Medium', age: 'Puppy', img:'images/dalmata03.jpg', id:'11', fav: false},
-    {name:'Pia' ,breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer01.jpg', id:'12', fav: false},
-    {name:'Butch' ,breed:'Boxer', size:'Medium', age: 'Puppy', img:'images/boxer02.jpg', id:'13', fav: false}
+    {name:'Lala' ,breed:'Border Collie', size:'Medium', gender:'Girl',age: 'Puppy', img:'images/border_collie01.jpg', id:'01', fav: false},
+    {name:'Mimi' ,breed:'Border Collie', size:'Medium', gender:'Girl',age: 'Puppy', img:'images/border_collie02.jpg', id:'02', fav: false},
+    {name:'Jess' ,breed:'Border Collie', size:'Medium', gender:'Girl',age: 'Adult', img:'images/border_collie04.jpg', id:'03', fav: false},
+    {name:'Toto' ,breed:'Labrador', size:'Medium', gender:'Boy',age: 'Senior', img:'images/labrador04.jpg', id:'04', fav: false},
+    {name:'Angie' ,breed:'Labrador', size:'Medium', gender:'Boy',age: 'Puppy', img:'images/labrador01.jpg', id:'05', fav: false},
+    {name:'Lucho' ,breed:'Pug', size:'Small', gender:'Girl',age: 'Puppy', img:'images/pug01.jpg', id:'06', fav: false},
+    {name:'Tomi' ,breed:'Pug', size:'Small', gender:'Boy',age: 'Adult', img:'images/pug03.jpg', id:'07', fav: false},
+    {name:'Maria' ,breed:'Gran Danes', size:'Large', gender:'Boy',age: 'Puppy', img:'images/gran_danes01.jpg', id:'08', fav: false},
+    {name:'Toti' ,breed:'Gran Danes', size:'Large', gender:'Girl',age: 'Adult', img:'images/gran_danes02.jpg', id:'09', fav: false},
+    {name:'Nana' ,breed:'Dalmata', size:'Medium', gender:'Boy',age: 'Puppy', img:'images/dalmata02.jpg', id:'10', fav: false},
+    {name:'Crash' ,breed:'Dalmata', size:'Medium', gender:'Boy',age: 'Puppy', img:'images/dalmata03.jpg', id:'11', fav: false},
+    {name:'Pia' ,breed:'Boxer', size:'Medium', gender:'Girl',age: 'Puppy', img:'images/boxer01.jpg', id:'12', fav: false},
+    {name:'Butch' ,breed:'Boxer', size:'Medium', gender:'Boy',age: 'Puppy', img:'images/boxer02.jpg', id:'13', fav: false}
 ];
 
 
@@ -31,7 +30,7 @@ self.dogDetails = function (req, res, next) {
     //console.log('dog details works');
     //console.log('this is a dog',dog);        
     let dog = dogs.find(dog => dog.id === req.params.id);    
-    res.render('dog', { title: dog.breed, dog: dog});
+    res.render('dog', { title: dog.name, dog: dog});
 } 
 
 self.pages = function (req,res, next){
@@ -67,28 +66,43 @@ self.pages = function (req,res, next){
 
     // console.log('total pages: ', totalPages);
     // console.log('page numbers: ', pageNumber);
-    // console.log(pages);
-    // console.log(strPages);
+    console.log(pages);
+    console.log(strPages);
 
     res.render('index', { 
-        title: 'paginando',
+        title: 'Find your new friend!',
         dogsPerPage: dogsPerPageArr,
         page: parseInt(req.params.page), 
-        pages: strPages
+        strPages: strPages,
+        pages:pages
     })
 }
 
-self.getFilters = function (breed,age){
+self.getFilters = function (breed,age,gender){
 
-    if(breed !== "All" && age !== "All"){
+    if(breed !== "All" && age !== "All" && gender !== 'All'){
         filtered= dogs.filter(item => 
-            item.breed === breed && item.age === age);
-    }else if(breed !== 'All' && age === 'All'){
+            item.breed === breed && item.age === age && item.gender === gender);
+    }else if(breed !== 'All' && age === 'All' && gender !== 'All'){
+        filtered= dogs.filter(item => 
+            item.breed === breed && item.gender === gender);
+    }else if(breed !== 'All' && age === 'All' && gender === 'All'){
         filtered= dogs.filter(item => 
             item.breed === breed);
-    }else if(breed === 'All' && age !== 'All'){
+    }else if(breed !== 'All' && age !== 'All' && gender === 'All'){
+        filtered= dogs.filter(item => 
+            item.breed === breed && item.age === age);
+    }else if(breed === 'All' && age !== 'All' && gender === 'All'){
         filtered= dogs.filter(item => 
             item.age === age);
+    }else if(breed === 'All' && age === 'All' && gender !== 'All'){
+        filtered= dogs.filter(item => 
+            item.gender === gender);
+    }else if(breed === 'All' && age !== 'All' && gender !== 'All'){
+        filtered= dogs.filter(item => 
+            item.age === age && item.gender === gender);
+    }else if (breed === 'All' && age === 'All' && gender === 'All'){
+        filtered = dogs;
     }
     console.log(filtered);
     return filtered;
@@ -96,25 +110,22 @@ self.getFilters = function (breed,age){
 
 self.filterDogs = function(req, res, next){
 
-    var age = req.body.ages;
-    var dogSize = req.body.sizes;
-    var breed = req.body.breeds;
-
-    console.log('filters: ',age,dogSize,breed);
+    let age = req.body.ages;
+    let breed = req.body.breeds;
+    let gender = req.body.genders;
+    console.log('filters: ',age,breed,gender);
     
-    var filter= self.getFilters(breed, age);
-    console.log(filter)
+    let filter = self.getFilters(breed ,age, gender);
+    console.log('filter',filter)
 
     if(filter === 0){
         res.render('error');
     }else{
         res.render('filter', {
-            title: 'Resultados de búsqueda: '+breed+' '+age, 
+            title: 'Resultados de búsqueda: Breed: '+breed+' Age: '+age, 
             filter: filter});
     }
 }
-
-var gustados = [];
 
 self.createFav = function(liked){
     var likedDog = gustados.indexOf(liked);
@@ -153,7 +164,6 @@ self.getFaved = function(req, res, next){
     self.createFav(liked);
     res.send("response ok");
 }
-
 
 self.faved = function(req, res, next){
     //var dogData=[];

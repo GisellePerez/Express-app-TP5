@@ -1,5 +1,4 @@
 //Favs
-var likedDogs= [];
 
 $('.icon').on('click', function(){
   var name= $(this).data('name');
@@ -13,7 +12,6 @@ $('.icon').on('click', function(){
     data: {info: JSON.stringify({'liked':name, 'id':id})},
 
     
-
     success: function(){
       if(icon.hasClass('faved')){
         console.log(name);

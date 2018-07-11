@@ -2,17 +2,16 @@ extends layout
 
 block content
 
-    h1='welcome to favs'
-    h2=title
+    #breadcrumb
+        a(href='/') HOME
+        span > FAVORITES
 
-    .gustados
-        ul
-            for gustado in gustados
-                li=gustado
-            for favDog in dogData
-                li=favDog.dogName
-                    a(href='/dogs/dog/'+favDog.dogId) Info
-        
+    #mainFavList
+        h1='welcome to favs'
 
-
-    a(href='/dogs/1') Back
+        .favList
+            ul
+                for favDog in dogData
+                    li=favDog.dogName
+                        a(href='/dogs/dog/'+favDog.dogId) Info
+        a(href='/dogs/1').link Back to main page

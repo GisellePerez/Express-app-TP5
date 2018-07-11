@@ -4,6 +4,45 @@
   box-sizing: border-box;
   font-family: 'Nunito', sans-serif;
 }
+.header{
+  background:rgb(243, 98, 41);
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header figure img{
+  width: 15%;
+  margin:1em 1em 1em 2em;
+}
+.title{
+  text-align: right;
+  margin-right:1em;
+}
+#pageDetails{
+  display: flex;
+  justify-content: space-between;
+}
+#breadcrumb, .favs-div{
+  margin: 1em 1.5em 1.5em 1em;
+}
+#breadcrumb a, #breadcrumb span{
+  font-size: 12px;
+  margin-right:0.4em;
+  color: gray;
+}
+#breadcrumb a{
+  cursor: pointer;
+}
+#breadcrumb a:hover{
+  color:rgb(243, 98, 41);
+}
+.favs-div{
+  display:flex;
+  flex-direction: row-reverse;
+}
+.favs-div a, .favs-div span{
+  color:rgb(243, 98, 41);
+}
 #main{
   display: flex;
 }
@@ -11,33 +50,126 @@
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  margin:1em 0 0 3em;
+  margin-left:3em;
 }
 .dogs_div{
   margin: 0 auto;
   display:flex;
-  width: 80%;
+  width: 90%;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 .dog{
-  width:20%;
-  margin: 1em;
+  width:25%;
+  margin:0.5em;
+  padding: 0.8em;
+  box-shadow: rgb(184, 184, 184) 0 0 2px;
+  border-radius: 3px;
 }
 .dog img{
   width: 100%;
   height: auto;
 }
-.dog .info, .dog figure{
-  background-color: darkgray;
-}
 .pages-div{
   text-align: center;
+  margin-top: 2em;
 }
 .pages-div a {
-  margin:1em;
+  margin:0.5em;
 }
-
+.pag {
+  color: #ffffff;
+  background:rgb(255, 126, 52);
+  text-align: center;
+  text-decoration: none;
+  padding: 0.3em 0.7em;
+  border-radius:3px;
+}
+.pag:hover{
+  background:rgb(243, 98, 41);
+}
+.info{
+  margin-bottom: 0.5em ;
+}
+.dogsBtn{
+  margin: 0.5em 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dogsBtn a, .link {
+  color: #ffffff;
+  background:rgb(255, 126, 52);
+  text-align: center;
+  text-decoration: none;
+  padding: 0.2em 2.5em;
+  border-radius: 3px; 
+}
+.dogsBtn a:hover, .link:hover{
+  background:rgb(219, 182, 167);
+}
+#breeds,#ages,#genders{
+  padding:0.3em;
+  margin-bottom: 0.6em;
+}
+#btn-filter{
+  color: #ffffff;
+  background:rgb(255, 126, 52);
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5em 2.5em;
+  border-radius: 3px; 
+  width: 100%;
+  border:none;
+}
 .faved {
   color: rgb(245, 63, 63);
+}
+.dog_detail_div{
+  display: flex;
+  width: 60%;
+  margin: 0 auto;
+  box-shadow: rgb(184, 184, 184) 0 0 2px;
+  border-radius: 3px;
+  justify-content: space-around;
+  padding: 2em;
+}
+.dog_detail_div figure{
+  width: 60%;
+}
+.dog_detail_div figure img {
+  width: 100%;
+}
+.link{
+  margin-top: 2em;
+}
+#dogMain{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#mainFavList{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  width: 60%;
+  margin: 0 auto;
+}
+.favList{
+  box-shadow: rgb(184, 184, 184) 0 0 2px;
+  border-radius: 3px;
+}
+.favList ul li{
+  list-style: none;
+  margin:1em 1em 1em 2em; 
+}
+.favList ul li a{
+  margin-left: 0.4em;
+  color: rgb(255, 126, 52);
+  font-weight: bold;
+}
+#mainFilter{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

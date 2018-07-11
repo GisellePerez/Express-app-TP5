@@ -1,9 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  .dog_detail_div
-    figure
-      img(src='/'+dog.img alt='dog picture')
-      figcaption=dog.age
-    a(href='/dogs/1') Back
+  #breadcrumb
+    a(href='/') HOME
+    span >
+    a(href='/') ALL DOGS 
+    span='>'+' '+title
+  #dogMain
+    .dog_detail_div
+      figure
+        img(src='/'+dog.img alt='dog picture')
+      .dogInfo
+        .dogInfoText  
+          h1= title
+          p='Breed: '+dog.breed
+          p='Age: '+dog.age
+          p='Gender: '+dog.gender      
+    a(href='/dogs/1').link Back to main page

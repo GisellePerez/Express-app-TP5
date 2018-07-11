@@ -1,50 +1,64 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+
+  .header
+    figure.logo
+      img(src="../images/logo.png")
+    h1.title= title
+  #pageDetails
+    #breadcrumb
+      a(href='/') HOME
+      span > ALL DOGS
+    .favs-div
+      a(href='/favs/faved') My favs
+        i(class="far fa-heart")
   #main
     aside.filters_div
       form(action="/filtered" method="POST")
-        label(for="breeds") Breed
+        label(for="breeds") Select breed
         select#breeds(name="breeds")
           option(value="All") All
           option(value="Border Collie") Border Collie
           option(value="Labrador") Labrador
           option(value="Pug") Pug
           option(value="Gran Danes") Gran Danes
-        label(for="sizes") Size
-        select#sizes(name="sizes")
-          option(value="All") All
-          option(value="Small") Small
-          option(value="Medium") Medium
-          option(value="Large") Large
-        label(for="ages") Age
+        label(for="ages") Select Age
         select#ages(name="ages")
           option(value="All") All
           option(value="Puppy") Puppy
           option(value="Adult") Adult
           option(value="Senior") Senior
+        label(for="genders") Select gender        
+        select#genders(name="genders")
+          option(value="All") All
+          option(value="Girl") Girl
+          option(value="Boy") Boy
         #btn-filter-div
           input#btn-filter(type="submit" value="Filter")
-    .dogs_div
+    .section
+      .dogs_div
         for dog in dogsPerPage
             .dog  
                 figure
                     img(src='../' +dog.img alt='dog picture').img
+                h3.name=dog.name
                 .info
                     p.breed=dog.breed
-                    p.age=dog.age
-                    .dogsBtn
-                      a(href='/dogs/dog/'+dog.id) Info
-                      .fav  
-                      p 
-                        i(class="fas fa-heart" data-name=dog.name data-id=dog.id).icon
-  .pages-div        
-      ul
-          each pag, index in pages
-              li= index+1 
-                  a(href='/dogs/'+pag) pag
-  .favs-div
-    a(href='/favs/watched') Favs
+                      span.age=' - '+dog.age
+                .dogsBtn
+                  a(href='/dogs/dog/'+dog.id) Info
+                  .fav 
+                  if(dog.fav) 
+                    p 
+                      i(class="fas fa-heart faved" data-name=dog.name data-id=dog.id).icon
+                  else
+                    p 
+                      i(class="fas fa-heart" data-name=dog.name data-id=dog.id).icon
+      .pages-div        
+          ul
+            each pag, index in strPages
+              a(href='/dogs/'+pag).pag
+                span=index+1
   
+    

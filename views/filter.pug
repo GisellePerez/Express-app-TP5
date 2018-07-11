@@ -1,19 +1,22 @@
 extends layout
 
 block content
-    h1=title
-    #main    
+    #breadcrumb
+        a(href='/') HOME
+        span > FILTER
+    #mainFilter    
+        h1=title
         .dogs_div
             for dog in filter
                 .dog  
                     figure
-                        img(src=dog.img)
+                        img(src=dog.img).img
+                    h3.name=dog.name
                     .info
                         p.breed=dog.breed
-                        p.age=dog.age
+                            span.age=' - '+dog.age
                         .dogsBtn
-                        a(href='/filtered/'+dog.id) Info
-                        .fav  
-                        p
-                            i(class="far fa-heart")
-    a(href='/') Back
+                            a(href='/dogs/dog/'+dog.id) Info
+                         
+                        
+        a(href='/').link Back to main page
