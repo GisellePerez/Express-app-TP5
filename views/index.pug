@@ -11,8 +11,9 @@ block content
       a(href='/') HOME
       span > ALL DOGS
     .favs-div
-      a(href='/favs/faved') My favs
+      span 
         i(class="far fa-heart")
+        a(href='/favs/faved') My favs  
   #main
     aside.filters_div
       form(action="/filtered" method="POST")
@@ -45,16 +46,16 @@ block content
                 h3.name=dog.name
                 .info
                     p.breed=dog.breed
-                      span.age=' - '+dog.age
+                      span.age=' - '+dog.age+' - '+dog.gender
                 .dogsBtn
                   a(href='/dogs/dog/'+dog.id) Info
                   .fav 
                   if(dog.fav) 
                     p 
-                      i(class="fas fa-heart faved" data-name=dog.name data-id=dog.id).icon
+                      i(class="fas fa-heart faved" data-name=dog.name data-id=dog.id data-img=dog.img).icon
                   else
                     p 
-                      i(class="fas fa-heart" data-name=dog.name data-id=dog.id).icon
+                      i(class="fas fa-heart" data-name=dog.name data-id=dog.id data-img=dog.img).icon
       .pages-div        
           ul
             each pag, index in strPages

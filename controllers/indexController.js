@@ -127,12 +127,12 @@ self.filterDogs = function(req, res, next){
     }
 }
 
-self.createFav = function(liked){
-    var likedDog = gustados.indexOf(liked);
+self.createFav = function(info){
+    var likedDog = gustados.indexOf(info);
     if(likedDog >= 0){
         gustados.splice(likedDog, 1);
     }else{
-        gustados.push(liked)
+        gustados.push(info)
     }
 
     for(i=0; i<dogs.length; i++){
@@ -141,7 +141,7 @@ self.createFav = function(liked){
 
     for(i=0; i<gustados.length; i++){
         for(j=0; j<dogs.length; j++){
-            if(dogs[j].name === gustados[i]){
+            if(dogs[j].img === gustados[i]){
                 dogs[j].fav= true;
             }
         }
@@ -149,17 +149,20 @@ self.createFav = function(liked){
 }
 
 self.getFaved = function(req, res, next){
+    var img = (JSON.parse(req.body.info)).img;
+    console.log('info from main'+img);
+    
     var liked = (JSON.parse(req.body.info)).liked;
     var id = (JSON.parse(req.body.info)).id;
     
-    console.log('liked',liked, 'id',id);
+    console.log('liked',liked, 'id',id, 'img',img);
 
     let dogInfo = {
         dogId: id,
         dogName:liked 
     }
     
-    dogData.push(dogInfo); 
+    dogData.push(liked); 
     
     self.createFav(liked);
     res.send("response ok");
@@ -171,9 +174,9 @@ self.faved = function(req, res, next){
     var dogId;
     for(i=0; i<gustados.length; i++){
         for(j=0; j<dogs.length; j++){
-            if(dogs[j].name === gustados[i]){
+            if(dogs[j].img === gustados[i]){
                 //dogId=gustados[j].id;
-                dogName=dogs[j].name;               
+                dogName=dogs[j].img;               
             }
         }
     }

@@ -6,17 +6,21 @@ block content
         span > FILTER
     #mainFilter    
         h1=title
-        .dogs_div
-            for dog in filter
-                .dog  
-                    figure
-                        img(src=dog.img).img
-                    h3.name=dog.name
-                    .info
-                        p.breed=dog.breed
-                            span.age=' - '+dog.age
-                        .dogsBtn
-                            a(href='/dogs/dog/'+dog.id) Info
-                         
+        if(filter.length != 0)
+            .dogs_div
+                for dog in filter
+                    .dog  
+                        figure
+                            img(src=dog.img).img
+                        h3.name=dog.name
+                        .info
+                            p.breed=dog.breed
+                                span.age=' - '+dog.age+ ' - '+dog.gender
+                            .dogsBtn
+                                a(href='/dogs/dog/'+dog.id) Info
+        else
+            .dogs_div 
+                h4 There's no match. Try different filters.
+                            
                         
         a(href='/').link Back to main page

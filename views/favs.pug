@@ -9,9 +9,13 @@ block content
     #mainFavList
         h1='welcome to favs'
 
-        .favList
-            ul
-                for favDog in dogData
-                    li=favDog.dogName
-                        a(href='/dogs/dog/'+favDog.dogId) Info
+        if(gustados.length>0)
+            .favList
+                for liked in gustados
+                    .dog
+                        figure
+                            img(src='../' +liked)
+        else 
+            .favList
+                h4 No dogs faved yet.
         a(href='/dogs/1').link Back to main page
